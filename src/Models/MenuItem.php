@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class MenuItem extends Model
 {
     protected $fillable = [
+        'menu_id',
         'title',
     ];
 

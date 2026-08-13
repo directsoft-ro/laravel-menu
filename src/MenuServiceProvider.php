@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Directsoft\LaravelMenu;
 
-use Directsoft\LaravelMenu\Console\Commands\MenuCommand;
+use Directsoft\LaravelMenu\Console\Commands\MenuList;
+use Directsoft\LaravelMenu\Console\Commands\MenuMake;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuCacheKeyInterface;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuRepositoryInterface;
 use Directsoft\LaravelMenu\Repositories\MenuCacheKey;
@@ -58,7 +59,8 @@ class MenuServiceProvider extends ServiceProvider
         ], ['menu', 'menu-migrations']);
 
         $this->commands([
-            MenuCommand::class,
+            MenuList::class,
+            MenuMake::class,
         ]);
     }
 }

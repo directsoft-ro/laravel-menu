@@ -17,8 +17,7 @@ class MenuDeleted
     public function __construct(
         public readonly int $menuId,
         public readonly array $data = [],
-    )
-    {
+    ) {
         //
     }
 }

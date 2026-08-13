@@ -10,8 +10,7 @@ class UpdateMenuData extends Data
         public readonly string $title,
         public readonly string $name,
         public readonly ?string $position = null,
-    )
-    {
+    ) {
         //
     }
 }

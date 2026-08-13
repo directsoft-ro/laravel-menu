@@ -44,12 +44,12 @@ class MenuCacheKey implements MenuCacheKeyInterface
 
         if (empty($prefix)) {
             throw new UnexpectedValueException(
-                "The menu cache prefix is not defined.",
+                'The menu cache prefix is not defined.',
             );
         }
 
         return Str::of($prefix)
-            ->append("-")
+            ->append('-')
             ->append($key)
             ->lower()
             ->value();

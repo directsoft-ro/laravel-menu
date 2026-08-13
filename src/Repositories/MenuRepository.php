@@ -7,23 +7,26 @@ namespace Directsoft\LaravelMenu\Repositories;
 use Directsoft\LaravelMenu\Models\Menu as MenuModel;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuCacheKeyInterface;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuRepositoryInterface;
-use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Cache\Repository as Cache;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
+use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
 
 class MenuRepository implements MenuRepositoryInterface
 {
     public function __construct(
-        public readonly MenuModel             $menu,
-        public readonly Cache                 $cache,
+        public readonly MenuModel $menu,
+        public readonly Cache $cache,
         public readonly MenuCacheKeyInterface $menuCacheKey,
-        public readonly Connection            $databaseConnection,
-    )
-    {
+        public readonly Connection $databaseConnection,
+    ) {
         //
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getAll(): Collection
     {
         $cacheKey = $this->menuCacheKey->getAll();
@@ -32,13 +35,16 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->get();
+        $menus = $this->menu->get();
 
-        $this->cache->put($cacheKey, $menu);
+        $this->cache->put($cacheKey, $menus);
 
-        return $menu;
+        return $menus;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function findById(int $menuId): ?MenuModel
     {
         $cacheKey = $this->menuCacheKey->findById($menuId);
@@ -54,6 +60,9 @@ class MenuRepository implements MenuRepositoryInterface
         return $menu;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function findByPosition(string $position): ?MenuModel
     {
         $cacheKey = $this->menuCacheKey->findByPosition($position);
@@ -69,6 +78,9 @@ class MenuRepository implements MenuRepositoryInterface
         return $menu;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getByPosition(string $position): Collection
     {
         $cacheKey = $this->menuCacheKey->getByPosition($position);
@@ -77,7 +89,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->where('position', '=', $position)->get();
+        $menu = $this->menu->byPosition($position)->get();
 
         $this->cache->put($cacheKey, $menu);
 
@@ -130,14 +142,18 @@ class MenuRepository implements MenuRepositoryInterface
 
     public function clearCache(?MenuModel $menu = null): void
     {
-        $key = [
-            $this->menuCacheKey->getAll()
+        $keys = [
+            $this->menuCacheKey->getAll(),
         ];
 
         if ($menu) {
-            $key[] = $this->menuCacheKey->findById($menu->id);
-            $key[] = $this->menuCacheKey->findByPosition($menu->position);
-            $key[] = $this->menuCacheKey->getByPosition($menu->position);
+            $keys[] = $this->menuCacheKey->findById($menu->id);
+            $keys[] = $this->menuCacheKey->findByPosition($menu->position);
+            $keys[] = $this->menuCacheKey->getByPosition($menu->position);
+        }
+
+        foreach ($keys as $key) {
+            $this->cache->forget($key);
         }
     }
 }

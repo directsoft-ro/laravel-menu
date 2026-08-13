@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('menu.menu_table_name'), function (Blueprint $table) {
+        Schema::create($this->tableName(), function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('name')->unique();
@@ -21,6 +21,11 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('menu.menu_table_name'));
+        Schema::dropIfExists($this->tableName());
+    }
+
+    protected function tableName(): string
+    {
+        return config('menu.menu_table_name');
     }
 };

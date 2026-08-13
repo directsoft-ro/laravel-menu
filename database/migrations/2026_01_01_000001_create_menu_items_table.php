@@ -10,15 +10,24 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('menu.menu_items_table_name'), function (Blueprint $table) {
+        Schema::create($this->tableName(), function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('menu_id')->constrained('menus')->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('menu_items')->cascadeOnDelete();
+            $table->string('title');
+            $table->string('url');
+            $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists(config('menu.menu_items_table_name'));
+        Schema::dropIfExists($this->tableName());
+    }
+
+    protected function tableName(): string
+    {
+        return config('menu.menu_items_table_name');
     }
 };

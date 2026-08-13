@@ -16,8 +16,7 @@ class MenuCreated
      */
     public function __construct(
         public readonly int $menuId,
-    )
-    {
+    ) {
         //
     }
 }

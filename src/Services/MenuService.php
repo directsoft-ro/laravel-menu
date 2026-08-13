@@ -20,8 +20,7 @@ class MenuService implements MenuServiceInterface
     public function __construct(
         public readonly MenuRepositoryInterface $menuRepository,
         public readonly Connection $databaseConnection,
-    )
-    {
+    ) {
         //
     }
 
