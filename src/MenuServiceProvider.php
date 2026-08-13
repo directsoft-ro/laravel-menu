@@ -14,7 +14,7 @@ use Directsoft\LaravelMenu\Services\Contracts\MenuServiceInterface;
 use Directsoft\LaravelMenu\Services\MenuService;
 use Illuminate\Support\ServiceProvider;
 
-class MenuServiceProvider extends ServiceProvider
+final class MenuServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.

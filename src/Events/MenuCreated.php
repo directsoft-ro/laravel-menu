@@ -7,7 +7,7 @@ namespace Directsoft\LaravelMenu\Events;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MenuCreated
+final class MenuCreated
 {
     use Dispatchable, SerializesModels;
 

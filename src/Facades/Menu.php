@@ -7,12 +7,12 @@ namespace Directsoft\LaravelMenu\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Directsoft\Menu\Menu
+ * @see \Directsoft\LaravelMenu\Menu
  */
-class Menu extends Facade
+final class Menu extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Directsoft\Menu\Menu::class;
+        return \Directsoft\LaravelMenu\Menu::class;
     }
 }
