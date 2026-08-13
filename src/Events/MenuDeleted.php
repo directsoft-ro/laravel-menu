@@ -13,6 +13,8 @@ final class MenuDeleted
 
     /**
      * Create a new event instance.
+     *
+     * @param  array<string, mixed>  $data
      */
     public function __construct(
         public readonly int $menuId,

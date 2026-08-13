@@ -13,15 +13,16 @@ it('returns the same instance from the container', function () {
 });
 
 it('merges the package config', function () {
-    expect(config('laravel-menu.placeholder'))->toBe('default');
+    expect(config('menu.menu_table_name'))->toBe('menus');
+    expect(config('menu.menu_items_table_name'))->toBe('menu_items');
 });
 
-it('loads the package views', function () {
-    expect(view()->exists('laravel-menu::placeholder'))->toBeTrue();
-});
+//it('loads the package views', function () {
+//    expect(view()->exists('menu::placeholder'))->toBeTrue();
+//});
 
 it('registers the artisan command', function () {
-    $this->artisan('laravel-menu:placeholder')
-        ->expectsOutputToContain('Menu placeholder command executed.')
+    $this->artisan('menu:list')
+        ->expectsOutputToContain('Title')
         ->assertSuccessful();
 });

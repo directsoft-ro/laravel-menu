@@ -31,7 +31,6 @@ final class MenuList extends Command
     public function handle(): int
     {
         $menus = $this->menuRepository->getAll();
-        $menus->loadCount('menuItems');
 
         $headers = [
             __('Title'),

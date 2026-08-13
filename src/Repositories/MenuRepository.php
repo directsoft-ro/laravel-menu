@@ -9,7 +9,7 @@ use Directsoft\LaravelMenu\Repositories\Contracts\MenuCacheKeyInterface;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuRepositoryInterface;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Database\Connection;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
 
@@ -25,6 +25,8 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
+     * @return Collection<int, MenuModel>
+     *
      * @throws InvalidArgumentException
      */
     public function getAll(): Collection
@@ -35,7 +37,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menus = $this->menu->get();
+        $menus = $this->menu->with(['menuItems'])->get();
 
         $this->cache->put($cacheKey, $menus);
 
@@ -79,6 +81,8 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
+     * @return Collection<int, MenuModel>
+     *
      * @throws InvalidArgumentException
      */
     public function getByPosition(string $position): Collection
@@ -97,6 +101,8 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
+     * @param  array<string, mixed>  $data
+     *
      * @throws Throwable
      */
     public function create(array $data): MenuModel
@@ -111,6 +117,8 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
+     * @param  array<string, mixed>  $data
+     *
      * @throws Throwable
      */
     public function update(MenuModel $menu, array $data): bool
