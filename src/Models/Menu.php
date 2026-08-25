@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Sluggable\Attributes\Sluggable;
 
 /**
  * @property int $id
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method Builder<Menu> byName(string $name)
  * @method Builder<Menu> byPosition(string $position)
  */
+#[Sluggable(from: 'title', to: 'name')]
 class Menu extends Model
 {
     protected $fillable = [
