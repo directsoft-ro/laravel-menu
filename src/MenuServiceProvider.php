@@ -51,7 +51,7 @@ final class MenuServiceProvider extends ServiceProvider
         ], ['menu', 'menu-views']);
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/laravel-menu'),
+            __DIR__.'/../public' => public_path('vendor/menu'),
         ], ['menu', 'menu-assets']);
 
         $this->publishesMigrations([
