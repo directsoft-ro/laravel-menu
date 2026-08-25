@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * @property int $id
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
  * @property string $title
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $position
  * @property ?int $menuItemsCount
  *
+ * @method Builder<Menu> byTitle(string $title)
+ * @method Builder<Menu> byName(string $name)
  * @method Builder<Menu> byPosition(string $position)
  */
 class Menu extends Model
@@ -30,13 +33,37 @@ class Menu extends Model
     /**
      * @return HasMany<MenuItem, $this>
      */
-    public function menuItems(): HasMany
+    public function children(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'menu_id');
     }
 
     /**
      * @param  Builder<Menu>  $query
+     * @param string $title
+     *
+     * @return Builder<Menu>
+     */
+    public function scopeByTitle(Builder $query, string $title): Builder
+    {
+        return $query->where('title', '=', $title);
+    }
+
+    /**
+     * @param  Builder<Menu>  $query
+     * @param string $name
+     *
+     * @return Builder<Menu>
+     */
+    public function scopeByName(Builder $query, string $name): Builder
+    {
+        return $query->where('name', '=', $name);
+    }
+
+    /**
+     * @param  Builder<Menu>  $query
+     * @param string $position
+     *
      * @return Builder<Menu>
      */
     public function scopeByPosition(Builder $query, string $position): Builder
