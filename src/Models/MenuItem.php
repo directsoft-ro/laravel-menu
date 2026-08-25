@@ -8,6 +8,8 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
 /**
  * @property int $id
@@ -16,11 +18,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $menu_id
  * @property string $title
  */
-class MenuItem extends Model
+class MenuItem extends Model implements Sortable
 {
+    use SortableTrait;
+
+    public array $sortable = [
+        'order_column_name' => 'sort_order',
+        'sort_when_creating' => true,
+    ];
+
     protected $fillable = [
         'menu_id',
+        'parent_id',
         'title',
+        'url',
+        'sort_order',
     ];
 
     /**

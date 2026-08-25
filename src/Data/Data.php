@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Directsoft\LaravelMenu\Data;
 
-abstract class Data extends \Spatie\LaravelData\Data
+use \Spatie\LaravelData\Data as BaseData;
+
+abstract class Data extends BaseData
 {
     //
 }

@@ -42,8 +42,6 @@ class Menu extends Model
 
     /**
      * @param  Builder<Menu>  $query
-     * @param string $title
-     *
      * @return Builder<Menu>
      */
     public function scopeByTitle(Builder $query, string $title): Builder
@@ -53,8 +51,6 @@ class Menu extends Model
 
     /**
      * @param  Builder<Menu>  $query
-     * @param string $name
-     *
      * @return Builder<Menu>
      */
     public function scopeByName(Builder $query, string $name): Builder
@@ -64,8 +60,6 @@ class Menu extends Model
 
     /**
      * @param  Builder<Menu>  $query
-     * @param string $position
-     *
      * @return Builder<Menu>
      */
     public function scopeByPosition(Builder $query, string $position): Builder

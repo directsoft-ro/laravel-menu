@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable($this->menuTableName())) {
+        if (! Schema::hasTable($this->menuTableName())) {
             Schema::create($this->menuTableName(), function (Blueprint $table) {
                 $table->id();
                 $table->string('title');
@@ -20,7 +20,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable($this->menuItemsTableName())) {
+        if (! Schema::hasTable($this->menuItemsTableName())) {
             Schema::create($this->menuItemsTableName(), function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('menu_id')->constrained('menus')->cascadeOnDelete();

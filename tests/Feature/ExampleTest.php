@@ -17,9 +17,9 @@ it('merges the package config', function () {
     expect(config('menu.menu_items_table_name'))->toBe('menu_items');
 });
 
-//it('loads the package views', function () {
+// it('loads the package views', function () {
 //    expect(view()->exists('menu::placeholder'))->toBeTrue();
-//});
+// });
 
 it('registers the artisan command', function () {
     $this->artisan('menu:list')
