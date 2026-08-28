@@ -25,8 +25,10 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('menu_id')->constrained('menus')->cascadeOnDelete();
                 $table->foreignId('parent_id')->nullable()->constrained('menu_items')->cascadeOnDelete();
+                $table->string('type');
                 $table->string('title');
                 $table->string('url');
+                $table->string('class_name')->nullable();
                 $table->unsignedInteger('sort_order')->default(0);
                 $table->timestamps();
             });

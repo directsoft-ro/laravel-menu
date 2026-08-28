@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Directsoft\LaravelMenu\Models;
 
 use Carbon\CarbonImmutable;
+use Directsoft\LaravelMenu\Enums\MenuItemType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,6 +18,9 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property CarbonImmutable $updated_at
  * @property int $menu_id
  * @property string $title
+ * @property string $type
+ * @property string $class_name
+ * @property int $sort_order
  */
 class MenuItem extends Model implements Sortable
 {
@@ -32,8 +36,17 @@ class MenuItem extends Model implements Sortable
         'parent_id',
         'title',
         'url',
+        'type',
+        'class_name',
         'sort_order',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => MenuItemType::class,
+        ];
+    }
 
     /**
      * @return BelongsTo<Menu, $this>
