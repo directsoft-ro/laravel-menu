@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Directsoft\LaravelMenu\Repositories;
 
+use Directsoft\LaravelMenu\Data\CreateMenuItemData;
+use Directsoft\LaravelMenu\Data\UpdateMenuItemData;
+use Directsoft\LaravelMenu\Models\Menu;
 use Directsoft\LaravelMenu\Models\Menu as MenuModel;
+use Directsoft\LaravelMenu\Models\MenuItem;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuCacheKeyInterface;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuRepositoryInterface;
 use Illuminate\Cache\Repository as Cache;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Collection;
 use Psr\SimpleCache\InvalidArgumentException;
@@ -16,12 +21,21 @@ use Throwable;
 class MenuRepository implements MenuRepositoryInterface
 {
     public function __construct(
-        public readonly MenuModel $menu,
-        public readonly Cache $cache,
+        public readonly MenuModel             $menu,
+        public readonly Cache                 $cache,
         public readonly MenuCacheKeyInterface $menuCacheKey,
-        public readonly Connection $databaseConnection,
-    ) {
+        public readonly Connection            $databaseConnection,
+    )
+    {
         //
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function getPaginated(int $perPage = 25): LengthAwarePaginator
+    {
+        return $this->menu->with('children')->paginate($perPage);
     }
 
     /**
@@ -101,7 +115,7 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      *
      * @throws Throwable
      */
@@ -117,7 +131,7 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param array<string, mixed> $data
      *
      * @throws Throwable
      */
@@ -145,6 +159,49 @@ class MenuRepository implements MenuRepositoryInterface
             $this->clearCache($menu);
 
             return $menu->delete();
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function addChildren(Menu $menu, CreateMenuItemData $data): MenuItem
+    {
+        return $this->databaseConnection->transaction(function () use ($menu, $data) {
+            $menuItem = $menu->children()->create($data->toArray());
+            $this->clearCache($menu);
+
+            return $menuItem;
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function updateChildren(MenuItem $menuItem, UpdateMenuItemData $data): bool
+    {
+        return $this->databaseConnection->transaction(function () use ($menuItem, $data) {
+            $menuItem->fill($data->toArray());
+
+            if ($menuItem->isClean()) {
+                return false;
+            }
+
+            $this->clearCache($menuItem->menu);
+
+            return $menuItem->save();
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function deleteChildren(MenuItem $menuItem): bool
+    {
+        return $this->databaseConnection->transaction(function () use ($menuItem) {
+            $this->clearCache($menuItem->menu);
+
+            return $menuItem->delete();
         });
     }
 

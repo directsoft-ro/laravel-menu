@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Directsoft\LaravelMenu\Models;
 
 use Carbon\CarbonImmutable;
+use Directsoft\LaravelMenu\Models\Contracts\MenuInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,7 @@ use Spatie\Sluggable\Attributes\Sluggable;
  */
 #[Fillable(['title', 'name', 'position'])]
 #[Sluggable(from: 'title', to: 'name')]
-class Menu extends Model
+class Menu extends Model implements MenuInterface
 {
     /**
      * @return HasMany<MenuItem, $this>
