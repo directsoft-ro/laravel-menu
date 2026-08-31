@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Spatie\Sluggable\Attributes\Sluggable;
 
 /**
@@ -19,6 +20,7 @@ use Spatie\Sluggable\Attributes\Sluggable;
  * @property string $title
  * @property string $name
  * @property string $position
+ * @property Collection $menuItems
  * @property ?int $menuItemsCount
  *
  * @method Builder<Menu> byTitle(string $title)
@@ -32,7 +34,7 @@ class Menu extends Model implements MenuInterface
     /**
      * @return HasMany<MenuItem, $this>
      */
-    public function children(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'menu_id');
     }

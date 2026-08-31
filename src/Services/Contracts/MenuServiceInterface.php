@@ -33,15 +33,15 @@ interface MenuServiceInterface
     /**
      * @throws Throwable
      */
-    public function addChildren(Menu $menu, CreateMenuItemData $data): MenuItem;
+    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItem;
 
     /**
      * @throws Throwable
      */
-    public function updateChildren(MenuItem $menuItem, UpdateMenuItemData $data): MenuItem;
+    public function updateItem(MenuItem $menuItem, UpdateMenuItemData $data): MenuItem;
 
     /**
      * @throws Throwable
      */
-    public function deleteChildren(MenuItem $menuItem): MenuItem;
+    public function deleteItem(MenuItem $menuItem): MenuItem;
 }

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 interface MenuInterface
 {
-    public function children(): HasMany;
+    public function items(): HasMany;
 
     public function scopeByTitle(Builder $query, string $title): Builder;
 

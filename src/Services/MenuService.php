@@ -23,9 +23,8 @@ class MenuService implements MenuServiceInterface
 {
     public function __construct(
         public readonly MenuRepositoryInterface $menuRepository,
-        public readonly Connection              $databaseConnection,
-    )
-    {
+        public readonly Connection $databaseConnection,
+    ) {
         //
     }
 
@@ -81,10 +80,10 @@ class MenuService implements MenuServiceInterface
     /**
      * @throws Throwable
      */
-    public function addChildren(Menu $menu, CreateMenuItemData $data): MenuItem
+    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItem
     {
         return $this->databaseConnection->transaction(function () use ($menu, $data) {
-            $menuItem = $this->menuRepository->addChildren($menu, $data);
+            $menuItem = $this->menuRepository->addItem($menu, $data);
 
             event(new MenuUpdated($menu->id));
 
@@ -95,10 +94,10 @@ class MenuService implements MenuServiceInterface
     /**
      * @throws Throwable
      */
-    public function updateChildren(MenuItem $menuItem, UpdateMenuItemData $data): MenuItem
+    public function updateItem(MenuItem $menuItem, UpdateMenuItemData $data): MenuItem
     {
         return $this->databaseConnection->transaction(function () use ($menuItem, $data) {
-            $updated = $this->menuRepository->updateChildren($menuItem, $data);
+            $updated = $this->menuRepository->updateItem($menuItem, $data);
 
             if ($updated) {
                 event(new MenuUpdated($menuItem->menu->id));
@@ -111,10 +110,10 @@ class MenuService implements MenuServiceInterface
     /**
      * @throws Throwable
      */
-    public function deleteChildren(MenuItem $menuItem): MenuItem
+    public function deleteItem(MenuItem $menuItem): MenuItem
     {
         return $this->databaseConnection->transaction(function () use ($menuItem) {
-            $deleted = $this->menuRepository->deleteChildren($menuItem);
+            $deleted = $this->menuRepository->deleteItem($menuItem);
 
             if ($deleted) {
                 event(new MenuUpdated($menuItem->menu->id));

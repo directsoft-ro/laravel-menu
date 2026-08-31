@@ -15,18 +15,18 @@ use Illuminate\Cache\Repository as Cache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
 
 class MenuRepository implements MenuRepositoryInterface
 {
     public function __construct(
-        public readonly MenuModel             $menu,
-        public readonly Cache                 $cache,
+        public readonly MenuModel|Model $menu,
+        public readonly Cache $cache,
         public readonly MenuCacheKeyInterface $menuCacheKey,
-        public readonly Connection            $databaseConnection,
-    )
-    {
+        public readonly Connection $databaseConnection,
+    ) {
         //
     }
 
@@ -35,7 +35,7 @@ class MenuRepository implements MenuRepositoryInterface
      */
     public function getPaginated(int $perPage = 25): LengthAwarePaginator
     {
-        return $this->menu->with('children')->paginate($perPage);
+        return $this->menu->with('items')->paginate($perPage);
     }
 
     /**
@@ -51,7 +51,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menus = $this->menu->with('children')->get();
+        $menus = $this->menu->with('items')->get();
 
         $this->cache->put($cacheKey, $menus);
 
@@ -69,7 +69,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->with('children')->find($menuId);
+        $menu = $this->menu->with('items')->find($menuId);
 
         $this->cache->put($cacheKey, $menu);
 
@@ -87,7 +87,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->with('children')->byPosition($position)->first();
+        $menu = $this->menu->byPosition($position)->with('items')->first();
 
         $this->cache->put($cacheKey, $menu);
 
@@ -107,7 +107,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->with('children')->byPosition($position)->get();
+        $menu = $this->menu->byPosition($position)->with('items')->get();
 
         $this->cache->put($cacheKey, $menu);
 
@@ -115,7 +115,7 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      *
      * @throws Throwable
      */
@@ -131,7 +131,7 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      *
      * @throws Throwable
      */
@@ -165,10 +165,10 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function addChildren(Menu $menu, CreateMenuItemData $data): MenuItem
+    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItem
     {
         return $this->databaseConnection->transaction(function () use ($menu, $data) {
-            $menuItem = $menu->children()->create($data->toArray());
+            $menuItem = $menu->items()->create($data->toArray());
             $this->clearCache($menu);
 
             return $menuItem;
@@ -178,7 +178,7 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function updateChildren(MenuItem $menuItem, UpdateMenuItemData $data): bool
+    public function updateItem(MenuItem $menuItem, UpdateMenuItemData $data): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem, $data) {
             $menuItem->fill($data->toArray());
@@ -196,7 +196,7 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function deleteChildren(MenuItem $menuItem): bool
+    public function deleteItem(MenuItem $menuItem): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem) {
             $this->clearCache($menuItem->menu);

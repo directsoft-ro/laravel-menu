@@ -64,15 +64,15 @@ interface MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function addChildren(Menu $menu, CreateMenuItemData $data): MenuItem;
+    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItem;
 
     /**
      * @throws Throwable
      */
-    public function updateChildren(MenuItem $menuItem, UpdateMenuItemData $data): bool;
+    public function updateItem(MenuItem $menuItem, UpdateMenuItemData $data): bool;
 
     /**
      * @throws Throwable
      */
-    public function deleteChildren(MenuItem $menuItem): bool;
+    public function deleteItem(MenuItem $menuItem): bool;
 }

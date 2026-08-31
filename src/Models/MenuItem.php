@@ -19,13 +19,14 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property CarbonImmutable $created_at
  * @property CarbonImmutable $updated_at
  * @property int $menu_id
+ * @property Menu $menu
  * @property string $title
  * @property string $type
  * @property string $class_name
  * @property int $sort_order
  */
 #[Fillable(['menu_id', 'parent_id', 'title', 'url', 'type', 'class_name', 'sort_order'])]
-class MenuItem extends Model implements Sortable, MenuItemInterface
+class MenuItem extends Model implements MenuItemInterface, Sortable
 {
     use SortableTrait;
 
