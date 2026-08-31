@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "directsoft/laravel-menu",
     "description": "Laravel Menu",
-    "type": "project",
+    "type": "library",
     "keywords": [
         "laravel",
         "directsoft",
