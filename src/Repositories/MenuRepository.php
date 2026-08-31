@@ -37,8 +37,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menus = $this->menu->get();
-        $menus->load('children');
+        $menus = $this->menu->with('children')->get();
 
         $this->cache->put($cacheKey, $menus);
 
@@ -56,8 +55,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->find($menuId);
-        $menu->load('children');
+        $menu = $this->menu->with('children')->find($menuId);
 
         $this->cache->put($cacheKey, $menu);
 
@@ -75,8 +73,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->byPosition($position)->first();
-        $menu->load('children');
+        $menu = $this->menu->with('children')->byPosition($position)->first();
 
         $this->cache->put($cacheKey, $menu);
 
@@ -96,8 +93,7 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->byPosition($position)->get();
-        $menu->load('children');
+        $menu = $this->menu->with('children')->byPosition($position)->get();
 
         $this->cache->put($cacheKey, $menu);
 
