@@ -15,14 +15,13 @@ use Illuminate\Cache\Repository as Cache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
 
 class MenuRepository implements MenuRepositoryInterface
 {
     public function __construct(
-        public readonly MenuModel|Model $menu,
+        public readonly MenuModel $menu,
         public readonly Cache $cache,
         public readonly MenuCacheKeyInterface $menuCacheKey,
         public readonly Connection $databaseConnection,
