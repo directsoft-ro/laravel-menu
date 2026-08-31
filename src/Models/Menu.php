@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Directsoft\LaravelMenu\Models;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,15 +24,10 @@ use Spatie\Sluggable\Attributes\Sluggable;
  * @method Builder<Menu> byName(string $name)
  * @method Builder<Menu> byPosition(string $position)
  */
+#[Fillable(['title', 'name', 'position'])]
 #[Sluggable(from: 'title', to: 'name')]
 class Menu extends Model
 {
-    protected $fillable = [
-        'title',
-        'name',
-        'position',
-    ];
-
     /**
      * @return HasMany<MenuItem, $this>
      */

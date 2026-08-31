@@ -8,7 +8,7 @@ class UpdateMenuData extends Data
 {
     public function __construct(
         public readonly string $title,
-        public readonly string $name,
+        public readonly ?string $name = null,
         public readonly ?string $position = null,
     ) {
         //

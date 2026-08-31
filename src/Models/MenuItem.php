@@ -6,6 +6,7 @@ namespace Directsoft\LaravelMenu\Models;
 
 use Carbon\CarbonImmutable;
 use Directsoft\LaravelMenu\Enums\MenuItemType;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +23,7 @@ use Spatie\EloquentSortable\SortableTrait;
  * @property string $class_name
  * @property int $sort_order
  */
+#[Fillable(['menu_id', 'parent_id', 'title', 'url', 'type', 'class_name', 'sort_order'])]
 class MenuItem extends Model implements Sortable
 {
     use SortableTrait;
@@ -29,16 +31,6 @@ class MenuItem extends Model implements Sortable
     public array $sortable = [
         'order_column_name' => 'sort_order',
         'sort_when_creating' => true,
-    ];
-
-    protected $fillable = [
-        'menu_id',
-        'parent_id',
-        'title',
-        'url',
-        'type',
-        'class_name',
-        'sort_order',
     ];
 
     protected function casts(): array
