@@ -42,6 +42,36 @@ class MenuItem extends Model implements MenuItemInterface, Sortable
         ];
     }
 
+    public function getId(): ?int
+    {
+        return $this->getAttribute('id');
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->getAttribute('title');
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->getAttribute('url');
+    }
+
+    public function getType(): ?MenuItemType
+    {
+        return $this->getAttribute('type');
+    }
+
+    public function getClassName(): ?string
+    {
+        return $this->getAttribute('class_name');
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->getAttribute('sort_order');
+    }
+
     /**
      * @return BelongsTo<Menu, $this>
      */
