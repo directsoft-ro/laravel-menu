@@ -43,5 +43,5 @@ interface MenuServiceInterface
     /**
      * @throws Throwable
      */
-    public function deleteItem(MenuItem $menuItem): MenuItem;
+    public function deleteItem(MenuItem $menuItem): bool;
 }

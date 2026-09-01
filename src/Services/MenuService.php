@@ -110,7 +110,7 @@ class MenuService implements MenuServiceInterface
     /**
      * @throws Throwable
      */
-    public function deleteItem(MenuItem $menuItem): MenuItem
+    public function deleteItem(MenuItem $menuItem): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem) {
             $deleted = $this->menuRepository->deleteItem($menuItem);
