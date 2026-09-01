@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Directsoft\LaravelMenu\Repositories;
 
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuCacheKeyInterface;
-use Illuminate\Support\Str;
-use UnexpectedValueException;
 
 class MenuCacheKey implements MenuCacheKeyInterface
 {
+    use HasCacheKey;
+
     public function getAll(): string
     {
         $methodName = __FUNCTION__;
@@ -36,22 +36,5 @@ class MenuCacheKey implements MenuCacheKeyInterface
         $methodName = __FUNCTION__;
 
         return $this->cacheKey("{$methodName}-{$position}");
-    }
-
-    protected function cacheKey(string $key): string
-    {
-        $prefix = config('menu.cache_prefix');
-
-        if (empty($prefix)) {
-            throw new UnexpectedValueException(
-                'The menu cache prefix is not defined.',
-            );
-        }
-
-        return Str::of($prefix)
-            ->append('-')
-            ->append($key)
-            ->lower()
-            ->value();
     }
 }

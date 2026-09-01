@@ -9,8 +9,8 @@ use Directsoft\LaravelMenu\Models\Contracts\MenuInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Collection;
 use Spatie\Sluggable\Attributes\Sluggable;
 
 /**
@@ -20,8 +20,8 @@ use Spatie\Sluggable\Attributes\Sluggable;
  * @property string $title
  * @property string $name
  * @property string $position
- * @property Collection $menuItems
- * @property ?int $menuItemsCount
+ * @property EloquentCollection $items
+ * @property ?int $itemsCount
  *
  * @method Builder<Menu> byTitle(string $title)
  * @method Builder<Menu> byName(string $name)

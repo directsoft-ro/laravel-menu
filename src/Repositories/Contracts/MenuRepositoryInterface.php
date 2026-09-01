@@ -8,7 +8,7 @@ use Directsoft\LaravelMenu\Data\CreateMenuItemData;
 use Directsoft\LaravelMenu\Data\UpdateMenuItemData;
 use Directsoft\LaravelMenu\Models\Menu;
 use Directsoft\LaravelMenu\Models\Menu as MenuModel;
-use Directsoft\LaravelMenu\Models\MenuItem;
+use Directsoft\LaravelMenu\Models\MenuItem as MenuItemModel;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use InvalidArgumentException;
@@ -43,6 +43,11 @@ interface MenuRepositoryInterface
     public function getByPosition(string $position): Collection;
 
     /**
+     * @throws InvalidArgumentException
+     */
+    public function findItemById(int $menuId, int $menuItemId): ?MenuItemModel;
+
+    /**
      * @param  array<string, mixed>  $data
      *
      * @throws Throwable
@@ -64,15 +69,15 @@ interface MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItem;
+    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItemModel;
 
     /**
      * @throws Throwable
      */
-    public function updateItem(MenuItem $menuItem, UpdateMenuItemData $data): bool;
+    public function updateItem(MenuItemModel $menuItem, UpdateMenuItemData $data): bool;
 
     /**
      * @throws Throwable
      */
-    public function deleteItem(MenuItem $menuItem): bool;
+    public function deleteItem(MenuItemModel $menuItem): bool;
 }

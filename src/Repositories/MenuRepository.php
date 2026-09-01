@@ -8,7 +8,7 @@ use Directsoft\LaravelMenu\Data\CreateMenuItemData;
 use Directsoft\LaravelMenu\Data\UpdateMenuItemData;
 use Directsoft\LaravelMenu\Models\Menu;
 use Directsoft\LaravelMenu\Models\Menu as MenuModel;
-use Directsoft\LaravelMenu\Models\MenuItem;
+use Directsoft\LaravelMenu\Models\MenuItem as MenuItemModel;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuCacheKeyInterface;
 use Directsoft\LaravelMenu\Repositories\Contracts\MenuRepositoryInterface;
 use Illuminate\Cache\Repository as Cache;
@@ -114,6 +114,16 @@ class MenuRepository implements MenuRepositoryInterface
     }
 
     /**
+     * @throws InvalidArgumentException
+     */
+    public function findItemById(int $menuId, int $menuItemId): ?MenuItemModel
+    {
+        $menu = $this->menu->with('items')->find($menuId);
+
+        return $menu?->items->find($menuItemId);
+    }
+
+    /**
      * @param  array<string, mixed>  $data
      *
      * @throws Throwable
@@ -164,7 +174,7 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItem
+    public function addItem(Menu $menu, CreateMenuItemData $data): MenuItemModel
     {
         return $this->databaseConnection->transaction(function () use ($menu, $data) {
             $menuItem = $menu->items()->create($data->toArray());
@@ -177,7 +187,7 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function updateItem(MenuItem $menuItem, UpdateMenuItemData $data): bool
+    public function updateItem(MenuItemModel $menuItem, UpdateMenuItemData $data): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem, $data) {
             $menuItem->fill($data->toArray());
@@ -195,7 +205,7 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function deleteItem(MenuItem $menuItem): bool
+    public function deleteItem(MenuItemModel $menuItem): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem) {
             $this->clearCache($menuItem->menu);
