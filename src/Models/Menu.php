@@ -31,6 +31,26 @@ use Spatie\Sluggable\Attributes\Sluggable;
 #[Sluggable(from: 'title', to: 'name')]
 class Menu extends Model implements MenuInterface
 {
+    public function getId(): ?int
+    {
+        return $this->getAttribute('id');
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->getAttribute('title');
+    }
+
+    public function getName(): ?string
+    {
+        return $this->getAttribute('name');
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->getAttribute('position');
+    }
+
     /**
      * @return HasMany<MenuItem, $this>
      */
