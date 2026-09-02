@@ -91,7 +91,7 @@ class MenuItem extends Model implements MenuItemInterface, Sortable
     /**
      * @return HasMany<MenuItem, $this>
      */
-    public function children(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'parent_id');
     }

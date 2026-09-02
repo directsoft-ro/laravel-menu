@@ -26,5 +26,5 @@ interface MenuItemInterface
 
     public function parent(): BelongsTo;
 
-    public function children(): HasMany;
+    public function items(): HasMany;
 }

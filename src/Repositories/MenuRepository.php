@@ -34,7 +34,9 @@ class MenuRepository implements MenuRepositoryInterface
      */
     public function getPaginated(int $perPage = 25): LengthAwarePaginator
     {
-        return $this->menu->with('items')->paginate($perPage);
+        return $this->menu
+            ->with(['items.items', 'items.parent'])
+            ->paginate($perPage);
     }
 
     /**
@@ -50,7 +52,9 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menus = $this->menu->with('items')->get();
+        $menus = $this->menu
+            ->with(['items.items', 'items.parent'])
+            ->get();
 
         $this->cache->put($cacheKey, $menus);
 
@@ -68,7 +72,9 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->with('items')->find($menuId);
+        $menu = $this->menu
+            ->with(['items.items', 'items.parent'])
+            ->find($menuId);
 
         $this->cache->put($cacheKey, $menu);
 
@@ -86,7 +92,10 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->byPosition($position)->with('items')->first();
+        $menu = $this->menu
+            ->byPosition($position)
+            ->with(['items.items', 'items.parent'])
+            ->first();
 
         $this->cache->put($cacheKey, $menu);
 
@@ -106,7 +115,10 @@ class MenuRepository implements MenuRepositoryInterface
             return $this->cache->get($cacheKey);
         }
 
-        $menu = $this->menu->byPosition($position)->with('items')->get();
+        $menu = $this->menu
+            ->byPosition($position)
+            ->with(['items.items', 'items.parent'])
+            ->get();
 
         $this->cache->put($cacheKey, $menu);
 
@@ -118,7 +130,9 @@ class MenuRepository implements MenuRepositoryInterface
      */
     public function findItemById(int $menuId, int $menuItemId): ?MenuItemModel
     {
-        $menu = $this->menu->with('items')->find($menuId);
+        $menu = $this->menu
+            ->with(['items.items', 'items.parent'])
+            ->find($menuId);
 
         return $menu?->items->find($menuItemId);
     }
