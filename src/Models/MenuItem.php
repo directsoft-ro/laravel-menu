@@ -8,6 +8,7 @@ use Carbon\CarbonImmutable;
 use Directsoft\LaravelMenu\Enums\MenuItemType;
 use Directsoft\LaravelMenu\Models\Contracts\MenuItemInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,6 +46,11 @@ class MenuItem extends Model implements MenuItemInterface, Sortable
     public function getId(): ?int
     {
         return $this->getAttribute('id');
+    }
+
+    public function getParentId(): ?int
+    {
+        return $this->getAttribute('parent_id');
     }
 
     public function getTitle(): ?string
@@ -94,5 +100,10 @@ class MenuItem extends Model implements MenuItemInterface, Sortable
     public function items(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'parent_id');
+    }
+
+    public function buildSortQuery(): Builder
+    {
+        return static::query()->where('parent_id', '=', $this->getParentId());
     }
 }
