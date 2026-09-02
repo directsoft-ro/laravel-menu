@@ -16,4 +16,14 @@ enum MenuItemType: string
             self::EXTERNAL => __('External'),
         };
     }
+
+    public function isInternal(): bool
+    {
+        return $this === self::INTERNAL;
+    }
+
+    public function isExternal(): bool
+    {
+        return $this === self::EXTERNAL;
+    }
 }
