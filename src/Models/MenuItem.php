@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -58,6 +60,15 @@ class MenuItem extends Model implements MenuItemInterface, Sortable
         return $this->getAttribute('title');
     }
 
+    public function getTitleAsSlug(): ?string
+    {
+        if (!$this->getTitle()) {
+            return null;
+        }
+
+        return Str::of($this->getTitle())->lower()->slug()->value();
+    }
+
     public function getUrl(): ?string
     {
         return $this->getAttribute('url');
@@ -76,6 +87,13 @@ class MenuItem extends Model implements MenuItemInterface, Sortable
     public function getSortOrder(): ?int
     {
         return $this->getAttribute('sort_order');
+    }
+
+    public function isActive(): bool
+    {
+        $currentUrl = Route::getCurrentRoute();
+
+        return $currentUrl->uri() === $this->getUrl();
     }
 
     /**

@@ -55,7 +55,11 @@ php artisan vendor:publish --tag="menu-assets"
 
 ## Usage
 
-<!-- Add a basic usage example here. -->
+Render menu
+
+```bladehtml
+<x-menu::list :menu="$menu" class="main-menu" />
+```
 
 ## Changelog
 

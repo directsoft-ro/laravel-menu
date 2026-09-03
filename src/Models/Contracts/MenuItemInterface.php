@@ -14,6 +14,8 @@ interface MenuItemInterface
 
     public function getTitle(): ?string;
 
+    public function getTitleAsSlug(): ?string;
+
     public function getUrl(): ?string;
 
     public function getType(): ?MenuItemType;
