@@ -8,6 +8,7 @@ $attributes = $attributes->class([
     'has-submenu' => $menuItem->items->isNotEmpty(),
     $menuItem->getTitleAsSlug(),
     'menu-item-active' => $menuItem->isActive(),
+    $menuItem->getClassName(),
 ]);
 @endphp
 
