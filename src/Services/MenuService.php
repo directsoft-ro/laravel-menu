@@ -129,6 +129,8 @@ class MenuService implements MenuServiceInterface
     public function moveItemUp(MenuItem $menuItem): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem) {
+            $this->menuRepository->clearCache($menuItem->menu);
+
             $updated = false;
 
             $initialSortOrder = $menuItem->sort_order;
@@ -153,6 +155,8 @@ class MenuService implements MenuServiceInterface
     public function moveItemDown(MenuItem $menuItem): bool
     {
         return $this->databaseConnection->transaction(function () use ($menuItem) {
+            $this->menuRepository->clearCache($menuItem->menu);
+
             $updated = false;
 
             $initialSortOrder = $menuItem->sort_order;

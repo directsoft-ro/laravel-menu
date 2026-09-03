@@ -80,4 +80,6 @@ interface MenuRepositoryInterface
      * @throws Throwable
      */
     public function deleteItem(MenuItemModel $menuItem): bool;
+
+    public function clearCache(?MenuModel $menu = null): void;
 }
