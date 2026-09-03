@@ -122,4 +122,52 @@ class MenuService implements MenuServiceInterface
             return $deleted;
         });
     }
+
+    /**
+     * @throws Throwable
+     */
+    public function moveItemUp(MenuItem $menuItem): bool
+    {
+        return $this->databaseConnection->transaction(function () use ($menuItem) {
+            $updated = false;
+
+            $initialSortOrder = $menuItem->sort_order;
+            $menuItem->moveOrderUp();
+            $afterSortOrder = $menuItem->sort_order;
+
+            if ($initialSortOrder !== $afterSortOrder) {
+                $updated = true;
+            }
+
+            if ($updated) {
+                event(new MenuUpdated($menuItem->menu->id));
+            }
+
+            return $updated;
+        });
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function moveItemDown(MenuItem $menuItem): bool
+    {
+        return $this->databaseConnection->transaction(function () use ($menuItem) {
+            $updated = false;
+
+            $initialSortOrder = $menuItem->sort_order;
+            $menuItem->moveOrderDown();
+            $afterSortOrder = $menuItem->sort_order;
+
+            if ($initialSortOrder !== $afterSortOrder) {
+                $updated = true;
+            }
+
+            if ($updated) {
+                event(new MenuUpdated($menuItem->menu->id));
+            }
+
+            return $updated;
+        });
+    }
 }

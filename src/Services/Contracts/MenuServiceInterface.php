@@ -44,4 +44,14 @@ interface MenuServiceInterface
      * @throws Throwable
      */
     public function deleteItem(MenuItem $menuItem): bool;
+
+    /**
+     * @throws Throwable
+     */
+    public function moveItemUp(MenuItem $menuItem): bool;
+
+    /**
+     * @throws Throwable
+     */
+    public function moveItemDown(MenuItem $menuItem): bool;
 }
